@@ -1,5 +1,4 @@
 from playwright.sync_api import Playwright, sync_playwright
-from bs4 import BeautifulSoup
 
 
 def run(playwright: Playwright) -> None:
@@ -10,12 +9,10 @@ def run(playwright: Playwright) -> None:
     page.evaluate("document.body.style.zoom=0.1")
     page.wait_for_load_state("networkidle")
 
-    soup = BeautifulSoup(page.content(), "lxml")
-
-    items = soup.find_all("li", class_="col-xs-2-4 shopee-search-item-result__item")
+    items = page.get_by_role("main").get_by_role("listitem").get_by_role("link").all()
 
     for item in items:
-        item.find("a").get("href")
+        item.get_attribute("href")
 
     assert len(items) == 60
 

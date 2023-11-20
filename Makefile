@@ -1,2 +1,2 @@
 run:
-	python3 ./test.py
+	python3 ./crawler.py
