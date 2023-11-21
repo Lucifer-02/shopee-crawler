@@ -22,10 +22,11 @@ header = {
 }
 
 
+
 def run(playwright: Playwright) -> None:
-    browser = playwright.chromium.launch(
+    browser = playwright.firefox.launch(
         headless=False,
-        # proxy={"server": "172.217.27.36:2404"},
+        proxy={"server": "http://127.0.0.1:8080"},
     )
     context = browser.new_context()
     with open("cookies.json", "r") as f:
@@ -49,7 +50,9 @@ def run(playwright: Playwright) -> None:
     page.goto(url=urls[1], timeout=60000)
 
     # page.evaluate("document.body.style.zoom=0.1")
-    page.wait_for_load_state("networkidle")
+    page.wait_for_timeout(30000)
+    page.wait_for_event()
+    # page.wait_for_load_state("networkidle")
 
     # soup = BeautifulSoup(page.content(), "lxml")
 
