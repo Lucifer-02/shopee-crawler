@@ -15,7 +15,7 @@ def run(playwright: Playwright) -> None:
     items = soup.find_all("li", class_="col-xs-2-4 shopee-search-item-result__item")
 
     for item in items:
-        item.find("a").get("href")
+        print(item.find("a").get("href"))
 
     assert len(items) == 60
 
