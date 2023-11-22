@@ -40,7 +40,7 @@ def get_item_sources(driver: uc.Chrome, urls: list[str]) -> list[str]:
         # Set zoom level
         driver.execute_script("document.body.style.zoom='4%'")
 
-        sleep(random.choice([1, 2, 3]))
+        sleep(random.choice([2, 3, 4]))
 
         try:
             # wait for Xem thêm appear
