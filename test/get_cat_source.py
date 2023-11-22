@@ -1,7 +1,6 @@
 import json
 
-from playwright.sync_api import Playwright, sync_playwright
-from bs4 import BeautifulSoup
+from playwright.sync_api import sync_playwright
 
 urls = [
     "https://shopee.vn",
@@ -12,10 +11,9 @@ urls = [
 ]
 
 
-def get_links() -> list[str]:
-    links = []
+def get_cat_source() -> str:
     with sync_playwright() as playwright:
-        browser = playwright.chromium.launch(headless=False)
+        browser = playwright.chromium.launch(headless=True)
         context = browser.new_context()
         page = context.new_page()
         with open("cookies.json", "r") as f:
@@ -27,29 +25,13 @@ def get_links() -> list[str]:
         page.evaluate("document.body.style.zoom=0.1")
         page.wait_for_load_state("networkidle")
 
-        soup = BeautifulSoup(page.content(), "lxml")
+        # input("Enter any key to quit...")
 
-        items = soup.find_all("li", class_="col-xs-2-4 shopee-search-item-result__item")
-
-        for item in items:
-            link = item.find("a").get("href")
-            links.append(link)
-
-        assert len(items) == 60
-
-        input("Enter any key to quit...")
-
-        # ---------------------
-        context.close()
-        browser.close()
-    return links
+        return page.content()
 
 
 def main():
-    links = get_links()
-    with open("urls.txt", "w") as f:
-        for link in links:
-            f.write(f"{urls[0]}/{link}\n")
+    print(get_cat_source())
 
 
 if __name__ == "__main__":
