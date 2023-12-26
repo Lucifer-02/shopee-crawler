@@ -1,3 +1,3 @@
 run:
-	# python3 ./crawler.py
-	python3 ./test.py
+	python3 ./crawler.py
+	# python3 ./test.py
